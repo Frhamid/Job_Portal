@@ -26,7 +26,7 @@ import Autoplay from "embla-carousel-autoplay";
 
 export default function LandingPage() {
   return (
-    <main className="flex flex-col gap-10 sm:gap-20 py-10 sm:py-20 px-10 sm:px-20">
+    <main className="flex flex-col gap-10 sm:gap-20 py-10 sm:py-20 ">
       <section className="text-center">
         <h1 className="flex flex-col items-center justify-center gradient-title text-4xl font-extrabold sm:text-6xl lg:text-8xl tracking-tighter py-4s">
           Find your dream job{" "}

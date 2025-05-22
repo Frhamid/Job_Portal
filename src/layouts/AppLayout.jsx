@@ -8,7 +8,9 @@ export default function AppLayout() {
       <div className="grid-background"></div>
       <main className="min-h-screen ">
         <Header />
-        <Outlet />
+        <div className="px-10 sm:px-20">
+          <Outlet />
+        </div>
       </main>
       <div className="p-10 text-center bg-gray-800 mt-10">
         All rights reserved
