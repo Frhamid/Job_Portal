@@ -77,7 +77,7 @@ export default function JobCard({
             {message}
           </div>
         ))}
-      <Card>
+      <Card className="flex flex-col h-full">
         <CardHeader>
           <CardTitle className="flex justify-between font-bold">
             {job.title}
