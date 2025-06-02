@@ -14,7 +14,7 @@ export default function Onboarding() {
         unsafeMetadata: { role },
       })
       .then(() => {
-        navigate(role === "Recruiter" ? "/postjob" : "/jobs");
+        navigate(role === "Recruiter" ? "/postjob" : "/joblisting");
       })
       .catch((e) => {
         console.log(e);

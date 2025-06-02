@@ -82,3 +82,7 @@
     @apply gradient text-transparent bg-clip-text;
   }
 }
+
+/* .wmde-markdown {
+  padding-top: -12px;
+} */

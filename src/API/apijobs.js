@@ -58,3 +58,43 @@ export async function savedJobs(token, { alreadySaved }, saveData) {
     return data;
   }
 }
+
+export async function getSingleJob(token, { job_id }) {
+  const supabase = await supabaseClient(token);
+
+  const { data, error } = await supabase
+    .from("jobs")
+    .select(
+      `
+    *,
+    company:company_tl (
+      name,
+      logo_url
+    )
+  ,applications_tl:applications_tl(*)`
+    )
+    .eq("id", job_id)
+    .single();
+  if (error) {
+    console.error("Error fetching Job:", error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function updateHiringStatus(token, { job_id }, isOpen) {
+  const supabase = await supabaseClient(token);
+
+  const { data, error } = await supabase
+    .from("jobs")
+    .update({ isOpen })
+    .eq("id", job_id)
+    .select();
+  if (error) {
+    console.error("Error Updating Job:", error);
+    return null;
+  }
+
+  return data;
+}

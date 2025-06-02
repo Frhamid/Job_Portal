@@ -19,8 +19,10 @@ import { State } from "country-state-city";
 
 export default function Joblisting() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchField, setSearchField] = useState("");
   const [location, setLocation] = useState("");
   const [company_id, setCompany_id] = useState("");
+
   const { isLoaded } = useUser();
   const {
     fn: fnJobs,
@@ -51,7 +53,9 @@ export default function Joblisting() {
     setLocation("");
     setCompany_id("");
     setSearchQuery("");
+    setSearchField("");
   }
+  console.log("search query", searchQuery);
 
   if (!isLoaded) {
     return <BarLoader className="mb-4" width={"100%"} color="red" />;
@@ -70,6 +74,8 @@ export default function Joblisting() {
       >
         <Input
           type="text"
+          onChange={(e) => setSearchField(e.target.value)}
+          value={searchField}
           placeholder="Search Jobs by Title.."
           name="search-query"
           className="h-full flex-1 px-4 py-4 text-md"

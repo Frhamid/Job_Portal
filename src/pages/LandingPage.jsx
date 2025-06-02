@@ -45,7 +45,7 @@ export default function LandingPage() {
       </section>
 
       <div className="flex justify-center gap-6">
-        <Link to="/jobs">
+        <Link to="/joblisting">
           <Button variant="blue" size="xl">
             Find Jobs
           </Button>
