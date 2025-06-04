@@ -7,28 +7,29 @@ export default function Protectedroute({ children }) {
   const navigate = useNavigate();
   const { isSignedIn, user, isLoaded } = useUser();
   const { pathname } = useLocation();
-  if (isLoaded && !isSignedIn && isSignedIn !== undefined) {
+
+  // Don't render anything until Clerk has loaded
+  if (!isLoaded) return null;
+
+  // Redirect to sign-in page if not signed in
+  if (!isSignedIn) {
     return <Navigate to="/?sign-in=true" />;
   }
 
-  if (
-    user !== undefined &&
-    !user?.unsafeMetadata?.role &&
-    pathname !== "/onboarding"
-  ) {
-    console.log("inside protected route check", pathname);
+  // Redirect to onboarding if role is not yet assigned
+  if (!user?.unsafeMetadata?.role && pathname !== "/onboarding") {
     return <Navigate to="/onboarding" />;
   }
 
-  useEffect(() => {
-    if (user) {
-      console.log("role:", user?.unsafeMetadata?.role);
-      console.log("pathname:", pathname);
-      if (user?.unsafeMetadata?.role == "Candidate" && pathname == "/postjob") {
-        navigate("/joblisting");
-      }
-    }
-  }, [pathname, user, navigate]);
+  const role = user?.unsafeMetadata?.role;
+
+  // Block invalid role-based access immediately
+  if (
+    (role === "Candidate" && pathname === "/postjob") ||
+    (role === "Recruiter" && pathname === "/savedjob")
+  ) {
+    return <Navigate to="/joblisting" />;
+  }
 
   return children;
 }

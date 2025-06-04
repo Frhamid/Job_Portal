@@ -86,6 +86,7 @@ export default function Jobs() {
       {loadingHiringStatus && (
         <BarLoader className="mb-4" width={"100%"} color="red" />
       )}
+
       {jobData?.recruitter_id === user?.id && (
         <Select onValueChange={handleStatus}>
           <SelectTrigger
@@ -116,19 +117,21 @@ export default function Jobs() {
       />
       {/* renderApplications */}
 
-      {jobData?.recruitter_id !== user?.id && (
-        <ApplyJobDrawer
-          job={jobData}
-          user={user}
-          fetchJob={fnJob}
-          applied={jobData?.applications_tl.find(
-            (ap) => ap?.candidate_id === user?.id
-          )}
-        />
-      )}
+      {jobData?.recruitter_id !== user?.id &&
+        user?.unsafeMetadata?.role === "Candidate" && (
+          <ApplyJobDrawer
+            job={jobData}
+            user={user}
+            fetchJob={fnJob}
+            applied={jobData?.applications_tl.find(
+              (ap) => ap?.candidate_id === user?.id
+            )}
+          />
+        )}
 
       {jobData?.applications_tl.length > 0 &&
-        jobData?.recruitter_id === user?.id && (
+        jobData?.recruitter_id === user?.id &&
+        user?.unsafeMetadata?.role === "Recruiter" && (
           <div className="flex flex-col gap-4">
             <h2 className="text-2xl sm:text-3xl font-bold">Applications</h2>
             {jobData?.applications_tl?.map((application) => {

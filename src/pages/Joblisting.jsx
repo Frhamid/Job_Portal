@@ -23,7 +23,7 @@ export default function Joblisting() {
   const [location, setLocation] = useState("");
   const [company_id, setCompany_id] = useState("");
 
-  const { isLoaded } = useUser();
+  const { user, isLoaded } = useUser();
   const {
     fn: fnJobs,
     data: Jobs,
@@ -65,9 +65,6 @@ export default function Joblisting() {
       <h1 className=" gradiet-title font-extrabold text-6xl sm:text-7xl text-center pb-8">
         Latest Jobs
       </h1>
-
-      {/* adding filter */}
-
       <form
         onSubmit={handleSearch}
         className="h-14 flex w-full gap-2 items-center mb-3"
@@ -137,6 +134,11 @@ export default function Joblisting() {
                   key={element.id}
                   job={element}
                   saveInit={element?.saved?.length > 0}
+                  isMyJob={
+                    user.id === element.recruitter_id &&
+                    user.unsafeMetadata.role === "Recruiter"
+                  }
+                  fnJobs={fnJobs}
                 />
               );
             })
