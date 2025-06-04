@@ -20,6 +20,7 @@ import { getCompanies } from "@/API/apicompanies";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import AddCompaniesDrawer from "@/components/AddCompaniesDrawer";
 
 const schema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -32,9 +33,10 @@ const schema = z.object({
 export default function Postjob() {
   const navigate = useNavigate();
   const { isLoaded, user } = useUser();
+
   const {
     fn: fnCompanies,
-    error: errorAddJob,
+    error: errorCompanies,
     data: Companies,
     loading: loadingCompanies,
   } = useFetch(getCompanies);
@@ -60,6 +62,7 @@ export default function Postjob() {
     loading: loadingaddJob,
     fn: fnaddJob,
     data: addJobData,
+    error: errorAddJob,
   } = useFetch(addNewJob);
 
   const onSubmit = (data) => {
@@ -143,6 +146,7 @@ export default function Postjob() {
             )}
           />
           {/* add company drawer */}
+          <AddCompaniesDrawer fetchCompanies={fnCompanies} />
         </div>
         {errors.location && (
           <p className="text-red-500">{errors.location.message}</p>
