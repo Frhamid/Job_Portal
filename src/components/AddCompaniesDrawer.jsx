@@ -5,7 +5,6 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -16,7 +15,6 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { addNewCompany } from "@/API/apicompanies";
 import useFetch from "@/hooks/use-fetch";
-import { data } from "autoprefixer";
 import { BarLoader } from "react-spinners";
 const schema = z.object({
   name: z.string().min(1, { message: "Company name is required" }),
@@ -24,25 +22,30 @@ const schema = z.object({
     .any()
     .refine(
       (file) =>
-        (file[0] && file[0].type === "image/png") ||
-        file[0].type === "image/jpeg",
-      { message: "Only images are allowed" }
-    ),
+        file?.[0] &&
+        ["image/png", "image/jpeg", "image/svg+xml", "image/webp"].includes(
+          file[0].type
+        ),
+      { message: "Only PNG, JPEG,WEBP or SVG images are allowed" }
+    )
+    .refine((file) => file?.[0]?.size <= 2 * 1024 * 1024, {
+      message: "File must be smaller than 2MB",
+    }),
 });
 
 export default function AddCompaniesDrawer({ fetchCompanies }) {
   const {
     fn: fnAddNewCompany,
     error: errorAddNewCompany,
-    data: AddNewCompany,
+    data: dataNewCompany,
     loading: loadingAddNewCompany,
   } = useFetch(addNewCompany);
 
-  //   useEffect(() => {
-  //     if (addNewCompany) {
-  //       fnCompanies;
-  //     }
-  //   }, [loadingAddNewCompany]);
+  useEffect(() => {
+    if (dataNewCompany?.length > 0) {
+      fetchCompanies();
+    }
+  }, [loadingAddNewCompany]);
   const onsubmit = (data) => {
     fnAddNewCompany({
       ...data,
@@ -82,7 +85,7 @@ export default function AddCompaniesDrawer({ fetchCompanies }) {
             type="button"
             onClick={handleSubmit(onsubmit)}
             variant="destructive"
-            className="w-40"
+            className="w-40 cursor-pointer"
           >
             Add
           </Button>
@@ -97,7 +100,11 @@ export default function AddCompaniesDrawer({ fetchCompanies }) {
         )}
         <DrawerFooter>
           <DrawerClose asChild>
-            <Button variant="secondary" type="button">
+            <Button
+              variant="secondary"
+              type="button"
+              className="cursor-pointer"
+            >
               Cancel
             </Button>
           </DrawerClose>
