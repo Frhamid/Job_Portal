@@ -54,3 +54,30 @@ export async function updateApplications(
 
   return data;
 }
+
+export async function getApplications(token, { user_id }) {
+  console.log("token", token);
+  const supabase = await supabaseClient(token);
+
+  const { data, error } = await supabase
+    .from("applications_tl")
+    .select(
+      `
+    *,
+    job:jobs (
+      title,
+      company:company_tl (
+        name
+      )
+    )
+  `
+    )
+    .eq("candidate_id", user_id);
+
+  if (error || data.length === 0) {
+    console.error("Error Fetching Job applications:", error);
+    return null;
+  }
+
+  return data;
+}

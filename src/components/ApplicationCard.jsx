@@ -48,10 +48,12 @@ export default function ApplicationCard({ application, isCandidate = false }) {
           {isCandidate
             ? `${application?.job?.title} at ${application?.job?.company?.name}`
             : application?.name}
-          <Download
-            className="bg-white text-black rounded-full h-8 w-8 p-1.5 cursor-pointer"
-            onClick={handleDownload}
-          />
+          {!isCandidate && (
+            <Download
+              className="bg-white text-black rounded-full h-8 w-8 p-1.5 cursor-pointer"
+              onClick={handleDownload}
+            />
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4 flex-1">

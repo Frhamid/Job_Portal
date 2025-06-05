@@ -22,7 +22,7 @@ export default function Savedjob() {
 
   console.log("savedallJobs", allSavedJobs);
 
-  if (!isLoaded) {
+  if (!isLoaded || loadingallSavedJob) {
     return <BarLoader className="mb-4" width={"100%"} color="red" />;
   }
   return (
@@ -31,9 +31,9 @@ export default function Savedjob() {
         My Saved Jobs
       </h1>
 
-      {loadingallSavedJob && (
+      {/* {loadingallSavedJob && (
         <BarLoader className="mb-4" width={"100%"} color="red" />
-      )}
+      )} */}
 
       {loadingallSavedJob === false && (
         <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
