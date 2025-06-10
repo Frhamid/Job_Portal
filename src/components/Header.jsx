@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "./ui/button";
 import { BriefcaseBusiness, Heart, PenBox, Search } from "lucide-react";
 import {
@@ -28,6 +28,8 @@ export default function Header() {
       setSearch({});
     }
   };
+
+  const navigate = useNavigate();
   return (
     <>
       <nav className="py-4 px-10 flex justify-between items-center">
@@ -60,16 +62,19 @@ export default function Header() {
               }}
             >
               <UserButton.MenuItems>
-                <UserButton.Link
-                  label="My Jobs"
-                  labelIcon={<BriefcaseBusiness size={15} />}
-                  href="/myjob"
-                />
-                <UserButton.Link
-                  label="Saved Jobs"
-                  labelIcon={<Heart size={15} />}
-                  href="/savedjob"
-                />
+                {user?.unsafeMetadata?.role == "Recruiter" ? (
+                  <UserButton.Action
+                    label="My Jobs"
+                    labelIcon={<BriefcaseBusiness size={15} />}
+                    onClick={() => navigate("/myjob")}
+                  />
+                ) : (
+                  <UserButton.Action
+                    label="Saved Jobs"
+                    labelIcon={<Heart size={15} />}
+                    onClick={() => navigate("/savedjob")}
+                  />
+                )}
               </UserButton.MenuItems>
             </UserButton>
           </SignedIn>
