@@ -75,8 +75,8 @@ export default function JobCard({
     }
   }, [DeletedJob]);
 
-  const handleDelete = () => {
-    fnDeleteJob(job.id, user.id);
+  const handleDelete = async () => {
+    await fnDeleteJob(job.id, user.id);
   };
 
   return (
