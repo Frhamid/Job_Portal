@@ -4,7 +4,7 @@ import AppLayout from "./layouts/AppLayout";
 import LandingPage from "./pages/LandingPage";
 import Onboarding from "./pages/Onboarding";
 import Joblisting from "./pages/Joblisting";
-import Jobs from "./pages/jobs";
+import Jobs from "./pages/Jobs";
 import Myjobs from "./pages/Myjobs";
 import Postjob from "./pages/Postjob";
 import Savedjob from "./pages/Savedjob";
